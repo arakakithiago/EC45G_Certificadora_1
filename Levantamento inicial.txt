@@ -1,0 +1,21 @@
+a) Integrantes do grupo 
+
+Giovanni Vaz de Andrade — RA: 2349736 
+Thiago Henrique Rodrigues Araki — RA: 2261286
+ 
+
+b) Tema do sistema a ser desenvolvido 
+ Sistema de Lembretes para Idosos 
+
+Nosso sistema vai ajudar pessoas mais velhas a lembrarem das tarefas do dia a dia, tipo tomar remédio, marcar consultas, pagar contas ou qualquer outro compromisso importante. A ideia é que o idoso consiga visualizar rapidamente tudo que precisa fazer no dia, sem complicação, com uma interface bem simples e clara, letras grandes, botões visíveis e cores que ajudam na leitura. A intenção é que seja útil, fácil de mexer e que realmente ajude na rotina diária. 
+
+c) Tipo de sistema 
+ Web 
+
+Escolhemos web pois o sistema vai rodar direto no navegador, então o idoso não precisa instalar nada. É só acessar pelo computador ou pelo celular que tiver internet. A gente vai focar em uma página principal com todos os lembretes do dia e opções de adicionar, editar ou marcar como concluído. A interface vai ser simples, limpa, sem muita coisa pra não confundir. No futuro, poderia até evoluir para enviar notificações automáticas, mas por enquanto a ideia é que ele veja os lembretes ao abrir o site. 
+
+d) Formas de comunicação dos integrantes 
+
+Google Meet para reuniões e alinhamento do projeto 
+
+WhatsApp para mensagens rápidas e combinarem horários

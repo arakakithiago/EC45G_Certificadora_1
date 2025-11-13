@@ -11,6 +11,9 @@ package model;
  * @author Aluno
  */
 public class Categoria {
+
+    public Categoria(int aInt, String string) {
+    }
     private int id;
     private String nome;
     //private Color cor;

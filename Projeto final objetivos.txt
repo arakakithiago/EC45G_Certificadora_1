@@ -1,0 +1,15 @@
+Projeto Final (50% da média final):
+
+- Nesta fase, o grupo deverá basicamente entregar o código do sistema feito e um vídeo de apresentação do sistema desenvolvido.
+
+- Deverá ser enviado pelo moodle da disciplina um documento no formato pdf, de acordo com as normas de trabalhos técnicos da instituição, e conter os seguintes itens:
+
+a) Codificação: inserir o link do repositório com todos os códigos desenvolvidos (Valor: 4,0);
+
+b) Banco de Dados: inserir os códigos SQL para a geração das tabelas (Valor: 1,5);
+
+c) Boas Práticas: descrever e comprovar as boas práticas usadas para o desenvolvimento do sistema, por exemplo: controle de versões, padrões de projeto etc (Valor: 1,5);
+
+d) Vídeo em grupo: inserir o link da apresentação do projeto, demonstrando a execução das principais funcionalidade do mesmo (Valor: 2,0);
+
+e) Conclusões e contribuições da disciplina para a formação do aluno (Valor: 1,0);

@@ -3,6 +3,7 @@ package model;
 public class Categoria {
 
     // construtor para uso em DAOs
+    // retiramos o item cor
     public Categoria(int id, String nome) {
         this.id = id;
         this.nome = nome;

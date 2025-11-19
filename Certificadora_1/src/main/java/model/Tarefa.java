@@ -7,6 +7,9 @@ package model;
 import java.util.Date;
 
 public class Tarefa {
+
+    public Tarefa(int aInt, String string, Date date, boolean aBoolean) {
+    }
     private int id;
     private String nome; // No diagrama é 'titulo'
     private Date datahora;

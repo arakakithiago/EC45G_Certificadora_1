@@ -242,7 +242,7 @@ public class GerenciaTarefa extends javax.swing.JFrame {
         Categoria categoriaSelecionada = listaCategorias.get(indiceCategoria); 
         
         // 3. Criar e Salvar a Tarefa
-        Tarefa novaTarefa = new Tarefa();
+        Tarefa novaTarefa = new Tarefa(rs.getInt("id"), rs.getString("nome"), rs.getDate("datahora"), rs.getBoolean("concluida"));
         novaTarefa.setNome(nomeTarefa);
         novaTarefa.setDatahora(dataHora);
         novaTarefa.setConcluida(false);

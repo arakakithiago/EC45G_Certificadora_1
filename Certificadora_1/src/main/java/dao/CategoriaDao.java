@@ -7,10 +7,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriaDao {
-    private Connection connection;
+    private final Connection connection;
     
     public CategoriaDao() throws SQLException {
-        this.connection = Banco.getConnection();
+        this.connection = Banco.getConnection();      
     }
 
     // Método para adicionar uma categoria

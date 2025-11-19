@@ -6,15 +6,14 @@ package model;
 
 import java.util.Date;
 
-/**
- *
- * @author Aluno
- */
 public class Tarefa {
     private int id;
-    private String nome;
+    private String nome; // No diagrama é 'titulo'
     private Date datahora;
     private boolean concluida;
+    
+    private int idCategoria; 
+
 
     public int getId() {
         return id;
@@ -46,5 +45,14 @@ public class Tarefa {
 
     public void setConcluida(boolean concluida) {
         this.concluida = concluida;
+    }
+    
+    // get e set para o relacionamento
+    public int getIdCategoria() {
+        return idCategoria;
+    }
+
+    public void setIdCategoria(int idCategoria) {
+        this.idCategoria = idCategoria;
     }
 }

@@ -24,10 +24,98 @@ public class TarefaDAO {
         // Construtor: obtém a conexão através da classe Banco centralizada
         this.connection = Banco.getConnection();
     }
+    
+    public List<Tarefa> listarComFiltro(String nome, Integer idCategoria, String data, Boolean concluida) throws SQLException {
+        List<Tarefa> tarefas = new ArrayList<>();
+        
+        // 1. Inicia a query base e a cláusula WHERE
+        StringBuilder sql = new StringBuilder("SELECT id_tarefa, titulo, datahora, concluida, id_categoria FROM tarefa WHERE 1=1");
+        List<Object> params = new ArrayList<>();
 
+        // 2. Adiciona filtro por NOME (Título)
+        if (nome != null && !nome.trim().isEmpty()) {
+            sql.append(" AND titulo ILIKE ?"); // Usando ILIKE para case-insensitive no PostgreSQL, use LIKE se for outro SGBD
+            params.add("%" + nome.trim() + "%");
+        }
+
+        // 3. Adiciona filtro por CATEGORIA
+        if (idCategoria != null && idCategoria > 0) {
+            sql.append(" AND id_categoria = ?");
+            params.add(idCategoria);
+        }
+
+        // 4. Adiciona filtro por ESTADO (Concluída)
+        if (concluida != null) {
+            sql.append(" AND concluida = ?");
+            params.add(concluida);
+        }
+
+        // 5. Adiciona filtro por DATA
+        if (data != null && !data.trim().isEmpty()) {
+             // Dependendo de como 'datahora' é armazenado (TIMESTAMP ou DATE), 
+             // você pode precisar de uma conversão de formato.
+             // Assumindo que o filtro busca a data completa (ex: 2025-11-21)
+             // Se 'datahora' for TIMESTAMP, usamos DATE() para comparar apenas a parte da data.
+             sql.append(" AND DATE(datahora) = ?"); 
+             // Convertendo a data de String (DD/MM/AAAA) para java.sql.Date
+             try {
+                java.util.Date parsedDate = new java.text.SimpleDateFormat("dd/MM/yyyy").parse(data);
+                java.sql.Date sqlDate = new java.sql.Date(parsedDate.getTime());
+                params.add(sqlDate);
+             } catch (java.text.ParseException e) {
+                // Caso a data fornecida não esteja no formato esperado, ignoramos o filtro de data
+                System.err.println("Formato de data inválido para o filtro: " + data);
+             }
+        }
+        
+        // 6. Finaliza a query
+        sql.append(" ORDER BY datahora");
+
+        try (PreparedStatement stmt = connection.prepareStatement(sql.toString())) {
+            
+            // 7. Seta os parâmetros
+            for (int i = 0; i < params.size(); i++) {
+                // PreparedStatement usa índice 1-based, a lista de params é 0-based
+                Object param = params.get(i);
+                
+                if (param instanceof String) {
+                    stmt.setString(i + 1, (String) param);
+                } else if (param instanceof Integer) {
+                    stmt.setInt(i + 1, (Integer) param);
+                } else if (param instanceof Boolean) {
+                    stmt.setBoolean(i + 1, (Boolean) param);
+                } else if (param instanceof java.sql.Date) {
+                    stmt.setDate(i + 1, (java.sql.Date) param);
+                }
+                // Adicionar outros tipos, se necessário (ex: Timestamp)
+            }
+
+            // 8. Executa e mapeia os resultados
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    Tarefa t = new Tarefa();
+                    t.setId(rs.getInt("id_tarefa"));
+                    t.setNome(rs.getString("titulo"));
+
+                    Timestamp ts = rs.getTimestamp("datahora");
+                    if (ts != null) {
+                        t.setDatahora(new java.util.Date(ts.getTime()));
+                    }
+
+                    t.setConcluida(rs.getBoolean("concluida"));
+                    t.setIdCategoria(rs.getInt("id_categoria"));
+                    tarefas.add(t);
+                }
+            }
+        }
+        return tarefas;
+    }
+    
+    
     /**
      * Salva uma nova Tarefa no banco de dados.
      */
+    
     public void salvar(Tarefa tarefa) throws SQLException {
         // Assume id_tarefa é SERIAL e é gerado automaticamente
         String sql = "INSERT INTO tarefa (titulo, datahora, concluida, id_categoria) VALUES (?, ?, ?, ?)";

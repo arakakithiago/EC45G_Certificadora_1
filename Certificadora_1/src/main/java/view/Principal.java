@@ -2,9 +2,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
-Java
 
-package view;
+package view;   
 
 import dao.TarefaDAO;
 import model.Tarefa;
@@ -39,73 +38,26 @@ public class Principal extends javax.swing.JFrame {
         }
     }
 
-    // Método para carregar os dados na jTable1
     private void carregarTabelaTarefas() {
-        carregarTabelaTarefas(null, null, null, null); // Chama a sobrecarga sem filtros
-    }
-    
-    // Método para carregar os dados na jTable1 com filtros
-    private void carregarTabelaTarefas(String nome, Integer idCategoria, String data, Boolean concluida) {
-        
-        // Define o modelo da tabela. A coluna "ID" e "Categoria ID" são ocultas na interface final
-        // mas necessárias para operações de CRUD e filtro.
-        DefaultTableModel modelo = new DefaultTableModel(
-            new Object [][] {},
-            new String [] {"ID", "Nome da tarefa", "Categoria", "Data", "Estado", "Categoria ID"}
-        ) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false; // Torna as células não editáveis
-            }
-        };
+    carregarTabelaTarefas(null, null, null, null); // Chama a sobrecarga sem filtros
+}
 
-        try {
-            // Se for implementado um método de filtro no DAO, ele seria chamado aqui.
-            // Para simplificar, vamos listar todos e filtrar em memória, ou assumir um novo método no DAO:
-            // List<Tarefa> tarefas = tarefaDAO.filtrar(nome, idCategoria, data, concluida);
-            
-            List<Tarefa> tarefas = tarefaDAO.listarTodas(); // Assumindo listagem completa por enquanto
+// Método para carregar os dados na jTable1 com filtros
+private void carregarTabelaTarefas(String nome, Integer idCategoria, String data, Boolean concluida) {
+    // ... (restante do código do modelo da tabela) ...
 
-            for (Tarefa t : tarefas) {
-                
-                // Conversão de idCategoria para nome da Categoria e booleano para nome do Estado
-                String nomeCategoria = obterNomeCategoria(t.getIdCategoria());
-                String estado = obterNomeEstado(t.isConcluida());
-                
-                // add uma linha para cada tarefa
-                modelo.addRow(new Object[]{
-                    t.getId(),
-                    t.getNome(),
-                    nomeCategoria,
-                    t.getDatahora(),
-                    estado,
-                    t.getIdCategoria()
-                });
-            }
-            jTable1.setModel(modelo);
+    try {
+        // AQUI ESTÁ A MUDANÇA:
+        List<Tarefa> tarefas = tarefaDAO.listarComFiltro(nome, idCategoria, data, concluida);
             
-            // Configurações visuais (ocultar colunas ID e Categoria ID)
-            if (jTable1.getColumnModel().getColumnCount() > 0) {
-                jTable1.getColumnModel().getColumn(0).setPreferredWidth(10); // ID
-                jTable1.getColumnModel().getColumn(0).setMinWidth(0);
-                jTable1.getColumnModel().getColumn(0).setMaxWidth(0);
-                
-                jTable1.getColumnModel().getColumn(5).setMinWidth(0); // Categoria ID
-                jTable1.getColumnModel().getColumn(5).setMaxWidth(0);
-            }
-            
-            // Redimensiona as colunas visíveis
-            if (jTable1.getColumnModel().getColumnCount() > 0) {
-                 jTable1.getColumnModel().getColumn(1).setPreferredWidth(300); // Nome
-                 jTable1.getColumnModel().getColumn(2).setPreferredWidth(150); // Categoria
-                 jTable1.getColumnModel().getColumn(3).setPreferredWidth(100); // Data
-                 jTable1.getColumnModel().getColumn(4).setPreferredWidth(100); // Estado
-            }
-
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao carregar lista de tarefas: " + e.getMessage(), "Erro de Banco", JOptionPane.ERROR_MESSAGE);
+        for (Tarefa t : tarefas) {
+            // ... (restante do loop de preenchimento da tabela) ...
         }
+        // ... (restante do código) ...
+    } catch (SQLException e) {
+        // ...
     }
+}
     
     // Método auxiliar para mapear o nome da categoria com base na posição do JComboBox1
     // A implementação real dependeria de como o idCategoria é armazenado no banco (se é a posição, ou um ID separado)
@@ -385,47 +337,32 @@ public class Principal extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
         try {
-            String nome = jTextField1.getText().trim();
-            
-            // Tratamento da Categoria
-            String categoriaSelecionada = (String) jComboBox1.getSelectedItem();
-            // A posição 0 (primeira) é a Categoria 'Saúde (Medicamentos)'
-            int idCategoria = jComboBox1.getSelectedIndex() + 1; 
+        String nome = jTextField1.getText().trim();
+        
+        // Tratamento da Categoria
+        String categoriaSelecionada = (String) jComboBox1.getSelectedItem();
+        // Obtendo o ID da categoria baseado na seleção (Assumindo que 1 corresponde à primeira opção)
+        int idCategoria = obterIdCategoria(categoriaSelecionada); 
 
-            // Tratamento do Estado
-            String estadoSelecionado = (String) jComboBox2.getSelectedItem();
-            Boolean concluida = null;
-            if ("Concluida".equals(estadoSelecionado)) {
-                concluida = true;
-            } else if ("Não iniciada".equals(estadoSelecionado) || "Em andamento".equals(estadoSelecionado)) {
-                // Se a coluna 'estado' for um booleano 'concluida', a lógica é simplificada.
-                // Se o banco tiver um campo 'status' (string/enum), a lógica deve refletir isso.
-                concluida = false;
-            }
-            
-            // Tratamento da Data
-            String dataString = jFormattedTextField1.getText().trim();
-            if (dataString.matches("\\d{2}/\\d{2}/\\d{4}")) { // Verifica se a máscara foi preenchida
-                // Se o campo data estiver preenchido, você pode formatá-lo para o formato do banco (ex: YYYY-MM-DD)
-                // Implementação mais complexa, omitida aqui, pois a classe Tarefa usa String datahora.
-                // Para o filtro, usaremos a string D/M/A
-            } else {
-                dataString = null; // Sem filtro de data
-            }
-            
-            // Recarrega a tabela com os filtros (você precisará adaptar o método carregarTabelaTarefas
-            // ou criar um novo método 'filtrarTarefas' no TarefaDAO que receba esses parâmetros).
-            // Chamando a sobrecarga para demonstrar o filtro.
-            carregarTabelaTarefas(nome, idCategoria, dataString, concluida);
-            
-            JOptionPane.showMessageDialog(this, "Filtragem aplicada!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Erro ao tentar filtrar tarefas: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+        // Tratamento do Estado
+        String estadoSelecionado = (String) jComboBox2.getSelectedItem();
+        Boolean concluida = obterEstadoConcluida(estadoSelecionado);
+        
+        // Tratamento da Data (no formato DD/MM/AAAA)
+        String dataString = jFormattedTextField1.getText().trim();
+        if (!dataString.matches("\\d{2}/\\d{2}/\\d{4}")) { 
+            dataString = null; // Sem filtro de data se o formato não estiver completo
         }
-    
         
+        // Chamada ao novo método de filtro no DAO
+        carregarTabelaTarefas(nome, idCategoria, dataString, concluida);
         
+        JOptionPane.showMessageDialog(this, "Filtragem aplicada!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
+
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Erro ao tentar filtrar tarefas: " + e.getMessage(), "Erro", JOptionPane.ERROR_MESSAGE);
+    }
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
@@ -456,7 +393,7 @@ public class Principal extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Erro ao excluir tarefa: " + e.getMessage(), "Erro de Banco", JOptionPane.ERROR_MESSAGE);
         }
-    }
+   
         
         
     }//GEN-LAST:event_jButton3ActionPerformed
@@ -465,7 +402,7 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jFormattedTextField1ActionPerformed
 
-    
+ 
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {

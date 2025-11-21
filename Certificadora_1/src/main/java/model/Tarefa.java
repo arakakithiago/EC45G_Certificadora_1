@@ -6,7 +6,8 @@ package model;
 
 import java.util.Date;
 
-public class Tarefa {
+public class Tarefa  {  public Tarefa() {
+    }
 
     public Tarefa(int aInt, String string, Date date, boolean aBoolean) {
     }

@@ -149,9 +149,11 @@ public class TarefaDAO {
              ResultSet rs = stmt.executeQuery()) {
             
             while (rs.next()) {
-                Tarefa t = new Tarefa(rs.getInt("id"), rs.getString("nome"), rs.getDate("datahora"), rs.getBoolean("concluida"));
-                t.setId(rs.getInt("id_tarefa")); 
-                t.setNome(rs.getString("titulo")); 
+                // CORREÇÃO: Usar o construtor vazio e Setters
+                Tarefa t = new Tarefa(); // Agora funciona!
+                
+                t.setId(rs.getInt("id_tarefa")); // Assumindo 'id_tarefa' é a coluna correta para o ID
+                t.setNome(rs.getString("titulo")); // Assumindo 'titulo' é a coluna correta para o nome
                 
                 // Converte Timestamp do SQL de volta para java.util.Date
                 Timestamp ts = rs.getTimestamp("datahora");
@@ -165,7 +167,8 @@ public class TarefaDAO {
                 tarefas.add(t);
             }
         }
-        return tarefas;
+       
+        return listarComFiltro(null, null, null, null);
     }
     
     public void atualizarTarefa(Tarefa tarefa) throws SQLException {
@@ -258,5 +261,9 @@ public class TarefaDAO {
         if (connection != null && !connection.isClosed()) {
             connection.close();
         }
+    }
+
+    public void excluir(int idTarefa) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

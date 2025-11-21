@@ -287,12 +287,13 @@ private void carregarTabelaTarefas(String nome, Integer idCategoria, String data
                             .addComponent(jLabel5)
                             .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(4, 4, 4)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                 .addComponent(jLabel7)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jFormattedTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(1, 1, 1)))
                 .addGap(31, 31, 31)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -333,6 +334,9 @@ private void carregarTabelaTarefas(String nome, Integer idCategoria, String data
         
         
     }//GEN-LAST:event_jButton7ActionPerformed
+ private void jFormattedTextField1ActionPerformed() {                                                     
+        // TODO add your handling code here:
+    }                                                    
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         
@@ -368,38 +372,34 @@ private void carregarTabelaTarefas(String nome, Integer idCategoria, String data
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
-
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         
         if (jTextField2.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Selecione uma tarefa na tabela para excluir.", "Aviso", JOptionPane.WARNING_MESSAGE);
+            // ...
             return;
         }
 
         try {
             int idTarefa = Integer.parseInt(jTextField2.getText());
             int confirmacao = JOptionPane.showConfirmDialog(this, 
-                    "Tem certeza que deseja excluir a tarefa de ID " + idTarefa + "?", 
+                   
                     "Confirmação de Exclusão", JOptionPane.YES_NO_OPTION);
 
             if (confirmacao == JOptionPane.YES_OPTION) {
-                tarefaDAO.excluir(idTarefa);
+                tarefaDAO.removerTarefa(idTarefa); // <--- CORREÇÃO AQUI
                 carregarTabelaTarefas(); // Recarrega a tabela após a exclusão
                 jTextField2.setText(""); // Limpa o campo de ID
                 JOptionPane.showMessageDialog(this, "Tarefa excluída com sucesso!", "Sucesso", JOptionPane.INFORMATION_MESSAGE);
             }
-        } catch (NumberFormatException e) {
-             JOptionPane.showMessageDialog(this, "ID da tarefa inválido.", "Erro", JOptionPane.ERROR_MESSAGE);
-        } catch (SQLException e) {
-            JOptionPane.showMessageDialog(this, "Erro ao excluir tarefa: " + e.getMessage(), "Erro de Banco", JOptionPane.ERROR_MESSAGE);
-        }
    
         
-        
+        } catch (SQLException ex) {
+            System.getLogger(Principal.class.getName()).log(System.Logger.Level.ERROR, (String) null, ex);
+        }
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jFormattedTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFormattedTextField1ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jFormattedTextField1ActionPerformed
 
  
@@ -431,4 +431,8 @@ private void carregarTabelaTarefas(String nome, Integer idCategoria, String data
     private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
     // End of variables declaration//GEN-END:variables
+
+    void carregarTabelaTarefas() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

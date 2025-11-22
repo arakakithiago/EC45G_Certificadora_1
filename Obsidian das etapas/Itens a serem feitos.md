@@ -1,7 +1,0 @@
-- [ ] Criar banco de dados
-- [ ] Criar métodos
-- [x] **Model**: Classes com atributos + getters/setters
-- [ ] **DAO**: Interface → Implementação (CRUD)
-- [ ] **Controller**: Lógica que usa DAO
-- [ ] **View**: UI que chama Controller
-- [ ] 

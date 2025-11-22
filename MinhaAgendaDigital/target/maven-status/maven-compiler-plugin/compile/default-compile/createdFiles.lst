@@ -1,0 +1,8 @@
+model/Categoria.class
+view/MinhaAgendaDigital$CategoriaInvalidaException.class
+model/Tarefa.class
+dao/CategoriaDAO.class
+view/MinhaAgendaDigital$1.class
+dao/TarefaDAO.class
+view/MinhaAgendaDigital.class
+control/Banco.class

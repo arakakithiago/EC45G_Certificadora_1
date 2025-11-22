@@ -1,6 +1,3 @@
-// Nomes: 
-// Gabriel de Souza Muniz - RA: 2475430
-// Thiago Henrique Rodrigues Arakaki - RA: 2261286
 package control;
 
 import dao.CategoriaDAO;

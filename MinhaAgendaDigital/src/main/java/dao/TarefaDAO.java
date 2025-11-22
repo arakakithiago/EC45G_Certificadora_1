@@ -10,15 +10,11 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author gabrielsm
- */
 public class TarefaDAO {
 
     private Connection connection;
 
-    // Construtor para estabelecer a conexão com o banco de dados
+   //Conexao banco
     public TarefaDAO() throws SQLException {
         try {
             String url = "jdbc:postgresql://localhost:5432/postgres";
@@ -30,12 +26,12 @@ public class TarefaDAO {
         }
     }
 
-    // Método para inserir um novo usuário
+    // Método para inserir tarefa
     public void inserirTarefa(Tarefa tarefa) throws SQLException {
         String sql = "INSERT INTO tarefa (nome, datahora, concluida, idcategoria) VALUES (?, ?, ?, ?)";
 
         try (PreparedStatement stmt = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
-            // Tratamento correto para nome vazio
+           
             if (tarefa.getNome() == null || tarefa.getNome().trim().isEmpty()) {
                 stmt.setNull(1, Types.VARCHAR);
             } else {
@@ -43,12 +39,12 @@ public class TarefaDAO {
             }
 
             stmt.setDate(2, tarefa.getDatahora());
-            stmt.setBoolean(3, tarefa.isConcluida()); // ✅ Usa o valor do objeto
+            stmt.setBoolean(3, tarefa.isConcluida()); 
             stmt.setInt(4, tarefa.getIdcategoria());
 
             stmt.executeUpdate();
 
-            // Obter ID gerado
+           
             try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
                 if (generatedKeys.next()) {
                     tarefa.setId(generatedKeys.getInt(1));
@@ -57,6 +53,7 @@ public class TarefaDAO {
         }
     }
 
+    
     public Tarefa buscarTarefaPorNome(String nometarefa) throws SQLException {
         String sql = "SELECT * FROM tarefa WHERE nome = ?";
 
@@ -69,7 +66,7 @@ public class TarefaDAO {
                             rs.getInt("id"),
                             rs.getString("nome"),
                             rs.getDate("datahora"),
-                            rs.getBoolean("concluida"), // ✅ CORRIGIDO: "concluida"
+                            rs.getBoolean("concluida"),
                             rs.getInt("idcategoria")
                     );
                 }
@@ -91,7 +88,7 @@ public class TarefaDAO {
                             rs.getInt("id"),
                             rs.getString("nome"),
                             rs.getDate("datahora"),
-                            rs.getBoolean("concluida"), // ✅ CORRIGIDO
+                            rs.getBoolean("concluida"), 
                             rs.getInt("idcategoria")
                     );
                     tarefas.add(tarefa);
@@ -192,10 +189,10 @@ public class TarefaDAO {
         }
         return tarefas;
     }
-
+    
     public void marcarComoConcluida(int id) throws SQLException {
         String sql = "UPDATE tarefa SET concluida = true WHERE id = ?";
-
+   
         try (PreparedStatement stmt = connection.prepareStatement(sql)) {
             stmt.setInt(1, id);
             stmt.executeUpdate();

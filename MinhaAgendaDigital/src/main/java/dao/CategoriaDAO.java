@@ -1,6 +1,3 @@
-// Nomes: 
-// Gabriel de Souza Muniz - RA: 2475430
-// Thiago Henrique Rodrigues Arakaki - RA: 2261286
 package dao;
 
 import model.Categoria;
@@ -11,7 +8,7 @@ import java.util.List;
 public class CategoriaDAO {
 
     private Connection connection;
-
+    //Conexao banco
     public CategoriaDAO() throws SQLException {
 
         try {
@@ -38,7 +35,7 @@ public class CategoriaDAO {
             }
         }
     }
-
+    
     public Categoria buscarCategoriaPorId(int id) throws SQLException {
         String sql = "SELECT * FROM categoria WHERE id = ?";
 

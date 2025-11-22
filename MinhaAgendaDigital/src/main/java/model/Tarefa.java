@@ -11,27 +11,25 @@ import java.sql.Date;
  * @author kaki
  */
 public class Tarefa {
+
     private int id;
     private String nome;
     private Date datahora;
     private boolean concluida;
     private int idcategoria;
 
-    // ✅ CORRETO: Construtor vazio (sem exceção!)
     public Tarefa() {
-        // Inicializações padrão
         this.concluida = false; // Valor padrão para novas tarefas
     }
 
-     public Tarefa(int id, String nome, Date datahora, boolean concluida, int idcategoria) {
+    public Tarefa(int id, String nome, Date datahora, boolean concluida, int idcategoria) {
         this.id = id;
         this.nome = nome;
         this.datahora = datahora;
         this.concluida = concluida;
         this.idcategoria = idcategoria;
     }
-     
-     
+
     public Date getDatahora() {
         return datahora;
     }
@@ -72,5 +70,4 @@ public class Tarefa {
         this.nome = nome;
     }
 
-   
 }

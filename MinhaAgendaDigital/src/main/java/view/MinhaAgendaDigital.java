@@ -239,7 +239,7 @@ public class MinhaAgendaDigital extends javax.swing.JFrame {
     }//GEN-LAST:event_cbCategoriaActionPerformed
 
     private void btnDiagnosticoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDiagnosticoActionPerformed
-    diagnosticarErro();
+        diagnosticarErro();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDiagnosticoActionPerformed
 
@@ -569,52 +569,50 @@ public class MinhaAgendaDigital extends javax.swing.JFrame {
             super("Categoria inválida");
         }
     }
-    
-    //Metodo para diagnosticar o erro do not supported yet
-    
-    // ✅ MÉTODO DE DIAGNÓSTICO - Adicione no JFrame
-private void diagnosticarErro() {
-    try {
-        System.out.println("=== INICIANDO DIAGNÓSTICO ===");
-        
-        // Teste 1: Conexão com o banco
-        System.out.println("1. Testando conexão...");
-        if (banco.testarConexao()) {
-            System.out.println("   ✅ Conexão OK");
+
+    //Metodo para diagnosticar o erro do not supported yet, tive que utilizar IA nesse caso, pois nao conseguia descobrir o erro de jeito nenhum
+    private void diagnosticarErro() {
+        try {
+            System.out.println("=== INICIANDO DIAGNÓSTICO ===");
+
+            // Teste 1: Conexão com o banco
+            System.out.println("1. Testando conexão...");
+            if (banco.testarConexao()) {
+                System.out.println("   ✅ Conexão OK");
+            }
+
+            // Teste 2: Listar tarefas
+            System.out.println("2. Testando listar tarefas...");
+            List<Tarefa> tarefas = banco.getTodasTarefas();
+            System.out.println("   ✅ Listar tarefas: " + (tarefas != null ? tarefas.size() + " tarefas" : "FALHA"));
+
+            // Teste 3: Buscar por nome
+            System.out.println("3. Testando buscar por nome...");
+            Tarefa tarefa = banco.getTarefaPorNome("Teste");
+            System.out.println("   ✅ Buscar por nome: " + (tarefa != null ? "Encontrada" : "Não encontrada (normal)"));
+
+            // Teste 4: Inserir tarefa
+            System.out.println("4. Testando inserir tarefa...");
+            Tarefa novaTarefa = new Tarefa();
+            novaTarefa.setNome("Tarefa Teste " + System.currentTimeMillis());
+            novaTarefa.setIdcategoria(1);
+            novaTarefa.setDatahora(new Date(System.currentTimeMillis()));
+            novaTarefa.setConcluida(false);
+
+            boolean inserido = banco.inserirTarefa(novaTarefa);
+            System.out.println("   ✅ Inserir tarefa: " + (inserido ? "SUCESSO" : "FALHA"));
+
+            System.out.println("=== DIAGNÓSTICO COMPLETADO ===");
+
+        } catch (Exception e) {
+            System.err.println("❌ ERRO NO DIAGNÓSTICO: " + e.getMessage());
+            e.printStackTrace(); // ⚠️ ISSO VAI MOSTRAR O "not supported yet" EXATO!
+
+            JOptionPane.showMessageDialog(this,
+                    "Erro no diagnóstico: " + e.getMessage(),
+                    "ERRO DE DIAGNÓSTICO", JOptionPane.ERROR_MESSAGE);
         }
-        
-        // Teste 2: Listar tarefas
-        System.out.println("2. Testando listar tarefas...");
-        List<Tarefa> tarefas = banco.getTodasTarefas();
-        System.out.println("   ✅ Listar tarefas: " + (tarefas != null ? tarefas.size() + " tarefas" : "FALHA"));
-        
-        // Teste 3: Buscar por nome
-        System.out.println("3. Testando buscar por nome...");
-        Tarefa tarefa = banco.getTarefaPorNome("Teste");
-        System.out.println("   ✅ Buscar por nome: " + (tarefa != null ? "Encontrada" : "Não encontrada (normal)"));
-        
-        // Teste 4: Inserir tarefa
-        System.out.println("4. Testando inserir tarefa...");
-        Tarefa novaTarefa = new Tarefa();
-        novaTarefa.setNome("Tarefa Teste " + System.currentTimeMillis());
-        novaTarefa.setIdcategoria(1);
-        novaTarefa.setDatahora(new Date(System.currentTimeMillis()));
-        novaTarefa.setConcluida(false);
-        
-        boolean inserido = banco.inserirTarefa(novaTarefa);
-        System.out.println("   ✅ Inserir tarefa: " + (inserido ? "SUCESSO" : "FALHA"));
-        
-        System.out.println("=== DIAGNÓSTICO COMPLETADO ===");
-        
-    } catch (Exception e) {
-        System.err.println("❌ ERRO NO DIAGNÓSTICO: " + e.getMessage());
-        e.printStackTrace(); // ⚠️ ISSO VAI MOSTRAR O "not supported yet" EXATO!
-        
-        JOptionPane.showMessageDialog(this, 
-            "Erro no diagnóstico: " + e.getMessage(), 
-            "ERRO DE DIAGNÓSTICO", JOptionPane.ERROR_MESSAGE);
     }
-}
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

@@ -1,0 +1,25 @@
+CREATE DATABASE Postgres; //Eu utilizei o banco padrao, e criei nos schemas as tabelas
+
+
+CREATE TABLE categoria(
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(50) NOT NULL UNIQUE
+);
+
+CREATE TABLE tarefa (
+    id SERIAL PRIMARY KEY,
+    nome VARCHAR(100) NOT NULL,
+    datahora DATE,
+    concluida BOOLEAN DEFAULT FALSE,
+    idcategoria INT NOT NULL,
+    
+    FOREIGN KEY (idcategoria) REFERENCES categoria(id)
+);
+
+INSERT INTO categoria (nome) VALUES 
+('Trabalho'),
+('Estudo'), 
+('Casa'),
+('Lazer'),
+('Saúde'),
+('Outro');

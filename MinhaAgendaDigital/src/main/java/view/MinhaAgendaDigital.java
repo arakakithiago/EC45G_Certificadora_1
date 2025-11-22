@@ -95,6 +95,7 @@ public class MinhaAgendaDigital extends javax.swing.JFrame {
 
         btnBuscarTarefa.setText("Buscar Tarefa");
         btnBuscarTarefa.setName("BtnBuscar"); // NOI18N
+        btnBuscarTarefa.addActionListener(this::btnBuscarTarefaActionPerformed);
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -153,7 +154,6 @@ public class MinhaAgendaDigital extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel5)
                             .addComponent(cbConcluida, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(120, 120, 120)
@@ -208,9 +208,7 @@ public class MinhaAgendaDigital extends javax.swing.JFrame {
         atualizarTarefa();
     }
 
-    private void btnBuscarTarefaActionPerformed(java.awt.event.ActionEvent evt) {
-        buscarTarefa();
-    }
+   
 
     private void btnExcluirTarefaActionPerformed(java.awt.event.ActionEvent evt) {
         excluirTarefa();
@@ -242,6 +240,11 @@ public class MinhaAgendaDigital extends javax.swing.JFrame {
         diagnosticarErro();
         // TODO add your handling code here:
     }//GEN-LAST:event_btnDiagnosticoActionPerformed
+
+    private void btnBuscarTarefaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarTarefaActionPerformed
+     buscarTarefa();
+// TODO add your handling code here:
+    }//GEN-LAST:event_btnBuscarTarefaActionPerformed
 
     /**
      * @param args the command line arguments
